@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<Plugin>
+    <Information>
+        <Name>Lovely Mouse Finder</Name>
+        <Author>LovelyMouseFinder</Author>
+        <Version>1.06</Version>
+        <Description>When in combat, this plugin draws a big circle around your cursor so you can find it easily.</Description>
+    </Information>
+    <Package>LovelyMouseFinder.LovelyMouseFinder</Package>
+    <Configuration Apartment="LovelyMouseFinder" />
+</Plugin>
