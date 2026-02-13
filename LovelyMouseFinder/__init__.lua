@@ -16,7 +16,7 @@ import (commonPath .. ".Utils.Utils_11");
 import (commonPath .. ".UI.RadioButton_2");
 import (commonPath .. ".UI.ColorPicker_4");
 
--- Friend Alert source files
+-- LovelyMouseFinder's scripts
 import (importPath .. ".Locale");
 import (importPath .. ".Settings");
 import (importPath .. ".Main");
