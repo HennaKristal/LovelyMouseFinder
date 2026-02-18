@@ -13,8 +13,6 @@ win:SetBackground("LovelyMouseFinder/LovelyMouseFinder/images/Low/heart_12.tga")
 win:SetVisible(true);
 win:SetStretchMode(2);
 win.nativeWidth, win.nativeHeight = win:GetSize();
-win:SetStretchMode(0);
-win:SetSize(win.nativeWidth, win.nativeHeight);
 win:SetVisible(false);
 win:SetBackColorBlendMode(Turbine.UI.BlendMode.Color);
 win:SetMouseVisible(false);
@@ -41,7 +39,7 @@ AddCallback(optionsPanel, "SettingsChanged", function()
     if (not settings.cycleColors) then
         win:SetBackColor(win.backColor);
     end
-    win.scale, win.width, win.height = settings.scale, settings.scale * win.nativeWidth, settings.scale * win.nativeHeight;
+    win.width, win.height = settings.scale * win.nativeWidth, settings.scale * win.nativeHeight;
     win:SetVisible(false);
     win.displayStartTime = nil;
     win.x, win.y = nil, nil;
@@ -57,7 +55,8 @@ function win:Update()
     if (self.moved) then
         if (not self.displayStartTime) then
             self:SetVisible(true);
-            win:SetScale(self.scale);
+            win:SetStretchMode(1);
+            win:SetSize(win.width, win.height);
         end
         self:SetPosition(x - self.width / 2, y - self.height / 2);
         self.displayStartTime = currentGameTime;
