@@ -42,7 +42,6 @@ AddCallback(optionsPanel, "SettingsChanged", function()
         win:SetBackColor(win.backColor);
     end
     win.width, win.height = settings.scale * win.nativeWidth, settings.scale * win.nativeHeight;
-    win:SetScale(settings.scale);
     win:SetVisible(false);
     win.displayStartTime = nil;
     win.x, win.y = nil, nil;
