@@ -13,7 +13,7 @@ function Palette:Constructor(parent, dimensionX, dimensionY, color)
     self:SetBackground(imagePath .. "/V_x_H.tga");
     self:SetStretchMode(2);
     self.width, self.height = self:GetSize();
-    
+
     self.overlay = Turbine.UI.Window();
     self.overlay:SetBackground(imagePath .. "/V_x_H.tga");
     self.overlay:SetStretchMode(2);
@@ -37,15 +37,15 @@ function Palette:Constructor(parent, dimensionX, dimensionY, color)
         sender.label:SetSize(width, height);
     end
     self.colorName:SetSize(self.width, 20);
-    
+
     self.pointer = Turbine.UI.Window();
-    self.pointer:SetVisible(true);   
+    self.pointer:SetVisible(true);
     self.pointer:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self.pointer:SetBackground(0x4112E573);
     self.pointer:SetSize(30, 30);
     self.pointer:SetStretchMode(2);
     self.spot = Turbine.UI.Window();
-    self.spot:SetVisible(true); 
+    self.spot:SetVisible(true);
     self.spot:SetBackground(imagePath .. "/spot.tga");
     self.spot:SetBackColorBlendMode(Turbine.UI.BlendMode.Overlay);
     self.spot:SetSize(30, 30);

@@ -12,6 +12,8 @@ win = Turbine.UI.Window();
 win:SetBackground("LovelyMouseFinder/LovelyMouseFinder/images/Low/heart_12.tga");
 win:SetVisible(true);
 win:SetStretchMode(2);
+win:RegisterForGlobalScaling();
+win:SetScale(settings.scale);
 win.nativeWidth, win.nativeHeight = win:GetSize();
 win:SetVisible(false);
 win:SetBackColorBlendMode(Turbine.UI.BlendMode.Color);
@@ -40,6 +42,7 @@ AddCallback(optionsPanel, "SettingsChanged", function()
         win:SetBackColor(win.backColor);
     end
     win.width, win.height = settings.scale * win.nativeWidth, settings.scale * win.nativeHeight;
+    win:SetScale(settings.scale);
     win:SetVisible(false);
     win.displayStartTime = nil;
     win.x, win.y = nil, nil;

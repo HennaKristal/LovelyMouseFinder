@@ -7,7 +7,7 @@ function Slider:Constructor(parent, dimension, color)
     Turbine.UI.Control.Constructor(self);
 
     self:SetParent(parent);
-    
+
     self:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self:SetBackground(imagePath .. "/B_grad.tga");
     self:SetStretchMode(2);
@@ -24,9 +24,9 @@ function Slider:Constructor(parent, dimension, color)
     self.lockIcon:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self.lockIcon:SetMouseVisible(false);
     self.lockIcon:SetSize(32, 32);
-    
+
     self.pointer = Turbine.UI.Window();
-    self.pointer:SetVisible(true);    
+    self.pointer:SetVisible(true);
     self.pointer:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self.pointer:SetBackground(0x41000290);
     self.pointer:SetSize(10, 10);

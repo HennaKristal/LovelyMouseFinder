@@ -11,25 +11,25 @@ end
 -- Derived from http://en.literateprograms.org/RGB_to_HSV_color_space_conversion_(C)?oldid=17206
 function Color:GetHSV()
     local R, G, B, H, S, V = self.R, self.G, self.B, 0, 0, 0;
-    
+
     local rgb_min = math.min(R, G, B);
     local rgb_max = math.max(R, G, B);
     V = rgb_max;
     if (V == 0) then
         return H, S, V;
     end
-    
+
     R = R / V;
     G = G / V;
     B = B / V;
     rgb_min = math.min(R, G, B);
     rgb_max = math.max(R, G, B);
-    
+
     S = rgb_max - rgb_min;
     if (S == 0) then
         return H, S, V;
     end
-    
+
     R = (R - rgb_min) / S;
     G = (G - rgb_min) / S;
     B = (B - rgb_min) / S;
@@ -46,7 +46,7 @@ function Color:GetHSV()
     else -- rgb_max == B
         H = 240 + 60 * (R - G);
     end
-    
+
     return H / 360, S, V;
 end
 
@@ -66,7 +66,7 @@ end
 -- Derived from http://www.cs.rit.edu/~ncs/color/t_convert.html
 function Color:SetHSV(H, S, V)
     local i, f, p, q, t;
-    
+
 	if (S == 0) then
         self.R, self.G, self.B = V, V, V;
 		return self;
@@ -78,7 +78,7 @@ function Color:SetHSV(H, S, V)
     p = V * (1 - S);
     q = V * (1 - S * f);
     t = V * (1 - S * (1 - f));
-    
+
     if (i == 0) then
         self.R, self.G, self.B = V, t, p;
     elseif (i == 1) then
@@ -92,7 +92,7 @@ function Color:SetHSV(H, S, V)
     else -- (i == 5)
         self.R, self.G, self.B = V, p, q;
     end
-    
+
     return self;
 end
 

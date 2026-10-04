@@ -508,7 +508,7 @@ function _G.Alert(title, contents, okButton, font)
     window.label:SetPosition(14, 47);
     window.label:SetText(contents);
     window.label:SetSelectable(true);
-    
+
     window.scrollBar = Turbine.UI.Lotro.ScrollBar();
     window.scrollBar:SetParent(window);
     window.scrollBar:SetOrientation(Turbine.UI.Orientation.Vertical);
@@ -525,7 +525,7 @@ function _G.Alert(title, contents, okButton, font)
         button:SetSize(100, 20);
         button.leftOffset = -50;
     end
-    
+
     window.SizeChanged = function(w)
         width, height = w:GetSize();
         w.label:SetSize(width - 27, height - 80);
@@ -537,7 +537,7 @@ function _G.Alert(title, contents, okButton, font)
         end
     end
     window:SizeChanged();
-    
+
     if (not _G.alertWindows) then _G.alertWindows = {} end
     window.winIndex = #_G.alertWindows + 1;
     window:SetPosition(window.winIndex * 6, window.winIndex * 27);
@@ -546,7 +546,7 @@ function _G.Alert(title, contents, okButton, font)
     window.Closing = function(sender)
         table.remove(_G.alertWindows, sender.winIndex);
     end
-    
+
     return window;
 end
 

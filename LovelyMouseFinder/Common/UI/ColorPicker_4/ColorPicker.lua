@@ -26,7 +26,7 @@ function ColorPicker:Constructor(color, dimension)
     if (not dimension) then
         dimension = "V";
     end
-    
+
     self:SetSize(407, 316);
     self.displayWidth = Turbine.UI.Display:GetWidth();
     self.displayHeight = Turbine.UI.Display:GetHeight();
@@ -47,7 +47,7 @@ function ColorPicker:Constructor(color, dimension)
     self.topBorderInside = Turbine.UI.Control();
     self.topBorderInside:SetParent(self);
     self.topBorderInside:SetBackColor(Turbine.UI.Color.Black);
-    
+
     self.palette = Palette(self, "G", "B", self.color);
     self.palette.ColorChanged = function()
         self:PaletteChanged();
@@ -63,7 +63,7 @@ function ColorPicker:Constructor(color, dimension)
     self.radioContainer:SetParent(self);
     self.radioContainer:SetWidth(radioButtonWidth);
     self.radioButtons = {};
-    
+
     self.radioButtons["R"] = LovelyMouseFinder.UI.RadioButton(self.radioContainer, L:GetText("Red"), true);
     self.radioButtons["R"]:SetFont(Turbine.UI.Lotro.Font.TrajanPro15);
     self.radioButtons["R"]:SetSize(radioButtonWidth, radioButtonHeight);
@@ -116,10 +116,10 @@ function ColorPicker:Constructor(color, dimension)
         self:SelectDimension("V");
     end
     top = top + 34;
-    
+
     LovelyMouseFinder.UI.RadioButton.LinkPeers({self.radioButtons["R"], self.radioButtons["G"], self.radioButtons["B"], self.radioButtons["H"], self.radioButtons["S"], self.radioButtons["V"]});
     self.radioContainer:SetHeight(top);
-    
+
     self.hex = Turbine.UI.Lotro.TextBox();
     self.hex:SetParent(self);
     self.hex:SetSize(math.floor(radioButtonWidth * 2 / 3 + 0.5), radioButtonHeight);
@@ -133,7 +133,7 @@ function ColorPicker:Constructor(color, dimension)
             self:HexChanged();
         end
     end
-    
+
     self.okButton = Turbine.UI.Lotro.Button();
     self.okButton:SetParent(self);
     self.okButton:SetSize(math.floor(radioButtonWidth / 2 + 0.5), radioButtonHeight);
@@ -148,7 +148,7 @@ function ColorPicker:Constructor(color, dimension)
         self:AddRecentColor(self.color);
         self:Close();
     end
-    
+
     self:SetWantsKeyEvents();
     self.KeyDown = function(sender, args)
         if (args.Action == Turbine.UI.Lotro.Action.EnterKey) then
@@ -183,12 +183,12 @@ function ColorPicker:Constructor(color, dimension)
             self.recent:AddSwatch(color);
         end
     end
-    
+
     self.changingSize = false;
     self:DoLayout();
     self:SetColor(color);
     self.radioButtons[dimension]:MouseClick();
-    
+
     self:SetZOrder(self:GetZOrder());
 
     -- If the display size changes, images will unstretch, so we need to redraw.
@@ -207,7 +207,7 @@ end
 
 function ColorPicker:AddRecentColor(newColor)
     local recentColors = ColorPicker.settings.recentColors;
-    
+
     -- Remove duplicates.
     local oldColorIndex = nil;
     for r = 1, #recentColors, 1 do
@@ -221,7 +221,7 @@ function ColorPicker:AddRecentColor(newColor)
     if (oldColorIndex) then
         table.remove(recentColors, oldColorIndex);
     end
-            
+
     -- Add the new color.
     table.insert(recentColors, 1, newColor);
     self:SaveSettings();
@@ -233,7 +233,7 @@ function ColorPicker:DoLayout()
     local spacing = 10;
     local sliderWidth = 20;
     local borderSize = 3;
-    
+
     local top = titleHeight + marginSize;
     local left = marginSize;
     local radioContainerWidth, radioContainerHeight = self.radioContainer:GetSize();
@@ -257,7 +257,7 @@ function ColorPicker:DoLayout()
     self.radioContainer:SetZOrder(self:GetZOrder() + 2);
     self.radioContainer:SetPosition(left, top);
     local right = left + self.radioContainer:GetWidth();
-    
+
     top = titleHeight + marginSize + paletteSize - self.okButton:GetHeight();
     self.okButton:SetPosition(left + math.floor(radioContainerWidth / 4 + 0.5), top - 3);
     local bottom = top + self.okButton:GetHeight();
@@ -270,12 +270,12 @@ function ColorPicker:DoLayout()
     top = top - 8 - self.hex:GetHeight();
     self.hex:SetPosition(left + math.floor(radioContainerWidth / 6 + 0.5), top);
 
-    spacing = spacing + 2;    
+    spacing = spacing + 2;
     left = marginSize;
     top = titleHeight + marginSize + paletteSize + spacing;
     self.presets:SetPosition(left, top);
     local width = right - left;
-    
+
     if (#ColorPicker.settings.recentColors > 0) then
         local halfWidth = math.floor(0.5 + (width - spacing) / 2)
         self.presets:SetSize(halfWidth, 40);
@@ -305,7 +305,7 @@ function ColorPicker:SelectDimension(sliderDimension)
     local paletteXDimension, paletteYDimension = LovelyMouseFinder.Utils.Color.GetOtherDimensions(sliderDimension);
     self.slider:SetDimension(sliderDimension);
     self.palette:SetDimensions(paletteXDimension, paletteYDimension);
-    
+
     -- Update display
     self:SetColor(self.color);
 end

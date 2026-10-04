@@ -17,7 +17,7 @@ end
 
 function Locale:AddText(newText)
     local function merge(src, dest)
-        for k, v in pairs(src) do 
+        for k, v in pairs(src) do
             if (type(v) == "table") then
                 if (dest[k] == nil) then
                     dest[k] = {};
@@ -105,13 +105,13 @@ function Locale:GetClientLanguageText(itemName)
     -- Temporarily change the language to the game client's language
     local selectedLanguage = self.language;
     self.language = self:GetClientLanguage();
-    
+
     -- Get the requested item
     local value = self:GetText(itemName);
-    
+
     -- Restore the selected language
     self.language = selectedLanguage;
-    
+
     return value;
 end
 
