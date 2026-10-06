@@ -5,17 +5,16 @@ import "Turbine.UI";
 import "Turbine.UI.Lotro";
 
 local importPath = getfenv(1)._.Name;
-local commonPath = getfenv(1)._.Name .. ".Common";
 
--- LovelyMouseFinder's libraries
-import (commonPath .. ".Turbine");
-import (commonPath .. ".Utils.Locale_3");
-import (commonPath .. ".Utils.Color_1");
-import (commonPath .. ".Utils.Utils_11");
-import (commonPath .. ".UI.RadioButton_2");
-import (commonPath .. ".UI.ColorPicker_4");
+-- Common source files
+import (importPath .. ".Common.Turbine");
+import (importPath .. ".Common.Utils.Locale_3");
+import (importPath .. ".Common.Utils.Color_1");
+import (importPath .. ".Common.Utils.Utils_11");
+import (importPath .. ".Common.UI.RadioButton_2");
+import (importPath .. ".Common.UI.ColorPicker_4");
 
--- Friend Alert source files
+-- LovelyMouseFinder source files
 import (importPath .. ".Locale");
 import (importPath .. ".Settings");
 import (importPath .. ".Main");

@@ -1,16 +1,9 @@
 -- Default settings
-defaultSettings = {
+settings = {
     scale = 1.0;
-    showOnlyInCombat = true;
     speed = 1;
-    dividedSpeed = 1;
-    persistTime = 1.0;
     color = Turbine.UI.Color.White;
-    cycleColors = false;
-    colorCycleSpeed = 10.0;
 };
-settings = {};
-DeepTableCopy(defaultSettings, settings);
 
 optionsPanel = Turbine.UI.Control();
 
@@ -19,21 +12,8 @@ function UpdateOptionsPanel()
     local prevContext = L:SetContext("/OptionsPanel");
     local font = Turbine.UI.Lotro.Font.Verdana12;
     local left, top, width = 10, 10, 300;
-    local columnWidth = math.floor(width / 2);
-    
-    if (not optionsPanel.showOnlyInCombat) then
-        optionsPanel.showOnlyInCombat = Turbine.UI.Lotro.CheckBox();
-        optionsPanel.showOnlyInCombat:SetParent(optionsPanel);
-        optionsPanel.showOnlyInCombat:SetSize(width, 16);
-        optionsPanel.showOnlyInCombat:SetPosition(left, top);
-        optionsPanel.showOnlyInCombat:SetFont(font);
-        optionsPanel.showOnlyInCombat:SetCheckAlignment(Turbine.UI.ContentAlignment.MiddleLeft);        
-        optionsPanel.showOnlyInCombat:SetText("Show only when in combat");
-        optionsPanel.showOnlyInCombat.CheckedChanged = function(box)
-            settings.showOnlyInCombat = box:IsChecked();
-            DoCallbacks(optionsPanel, "SettingsChanged");
-        end
 
+    if (not optionsPanel.speed) then
         local function add_horizontal_line(top)
             top = top + 24
             local line = Turbine.UI.Control();
@@ -43,15 +23,14 @@ function UpdateOptionsPanel()
             line:SetBackColor(Turbine.UI.Color(41/255, 48/255, 72/255));
             return top + 8;
         end
-        
-        top = add_horizontal_line(top);
+
         optionsPanel.speedLabel = Turbine.UI.Label();
         optionsPanel.speedLabel:SetParent(optionsPanel);
         optionsPanel.speedLabel:SetSize(width, 16);
         optionsPanel.speedLabel:SetPosition(left, top);
         optionsPanel.speedLabel:SetFont(font);
         optionsPanel.speedLabel:SetText("Rotation speed");
-        
+
         top = top + 16;
         optionsPanel.speed = Turbine.UI.Lotro.ScrollBar();
         optionsPanel.speed:SetParent(optionsPanel);
@@ -61,27 +40,6 @@ function UpdateOptionsPanel()
         optionsPanel.speed:SetMaximum(100);
         optionsPanel.speed.ValueChanged = function(bar)
             settings.speed = bar:GetValue();
-            settings.dividedSpeed = 1 / settings.speed;
-            DoCallbacks(optionsPanel, "SettingsChanged");
-        end
-
-        top = add_horizontal_line(top);
-        optionsPanel.persistTimeLabel = Turbine.UI.Label();
-        optionsPanel.persistTimeLabel:SetParent(optionsPanel);
-        optionsPanel.persistTimeLabel:SetSize(width, 16);
-        optionsPanel.persistTimeLabel:SetPosition(left, top);
-        optionsPanel.persistTimeLabel:SetFont(font);
-        optionsPanel.persistTimeLabel:SetText("Time to persist when movement stops");
-        
-        top = top + 16;
-        optionsPanel.persistTime = Turbine.UI.Lotro.ScrollBar();
-        optionsPanel.persistTime:SetParent(optionsPanel);
-        optionsPanel.persistTime:SetSize(width, 10);
-        optionsPanel.persistTime:SetPosition(left, top);
-        optionsPanel.persistTime:SetMinimum(0);
-        optionsPanel.persistTime:SetMaximum(100);
-        optionsPanel.persistTime.ValueChanged = function(bar)
-            settings.persistTime = bar:GetValue() / 10;
             DoCallbacks(optionsPanel, "SettingsChanged");
         end
 
@@ -92,7 +50,7 @@ function UpdateOptionsPanel()
         optionsPanel.scaleLabel:SetPosition(left, top);
         optionsPanel.scaleLabel:SetFont(font);
         optionsPanel.scaleLabel:SetText("Size");
-        
+
         top = top + 16;
         optionsPanel.scale = Turbine.UI.Lotro.ScrollBar();
         optionsPanel.scale:SetParent(optionsPanel);
@@ -104,29 +62,15 @@ function UpdateOptionsPanel()
             settings.scale = 2 * bar:GetValue() / 100;
             DoCallbacks(optionsPanel, "SettingsChanged");
         end
-        
-        top = add_horizontal_line(top);
-        optionsPanel.cycleColors = Turbine.UI.Lotro.CheckBox();
-        optionsPanel.cycleColors:SetParent(optionsPanel);
-        optionsPanel.cycleColors:SetSize(width, 16);
-        optionsPanel.cycleColors:SetPosition(left, top);
-        optionsPanel.cycleColors:SetFont(font);
-        optionsPanel.cycleColors:SetCheckAlignment(Turbine.UI.ContentAlignment.MiddleLeft);        
-        optionsPanel.cycleColors:SetText("Cycle colors continuously");
-        optionsPanel.cycleColors.CheckedChanged = function(box)
-            settings.cycleColors = box:IsChecked();
-            UpdateOptionsPanel();
-            DoCallbacks(optionsPanel, "SettingsChanged");
-        end
 
-        top = top + 16;
+        top = add_horizontal_line(top);
         optionsPanel.colorLabel = Turbine.UI.Label();
         optionsPanel.colorLabel:SetParent(optionsPanel);
         optionsPanel.colorLabel:SetSize(width, 16);
         optionsPanel.colorLabel:SetPosition(left, top);
         optionsPanel.colorLabel:SetFont(font);
         optionsPanel.colorLabel:SetText("Color");
-        
+
         top = top + 16;
         optionsPanel.color = Turbine.UI.Control();
         optionsPanel.color:SetParent(optionsPanel);
@@ -138,52 +82,13 @@ function UpdateOptionsPanel()
                 DoCallbacks(optionsPanel, "SettingsChanged");
             end);
         end
-        optionsPanel.colorCycleSpeed = Turbine.UI.Lotro.ScrollBar();
-        optionsPanel.colorCycleSpeed:SetParent(optionsPanel);
-        optionsPanel.colorCycleSpeed:SetSize(width, 10);
-        optionsPanel.colorCycleSpeed:SetPosition(left, top);
-        optionsPanel.colorCycleSpeed:SetMinimum(0);
-        optionsPanel.colorCycleSpeed:SetMaximum(100);
-        optionsPanel.colorCycleSpeed.ValueChanged = function(bar)
-            settings.colorCycleSpeed = bar:GetValue() / 10;
-            DoCallbacks(optionsPanel, "SettingsChanged");
-        end
-        optionsPanel.colorCycleSpeed.position = {optionsPanel.colorCycleSpeed:GetPosition()};
 
-        top = add_horizontal_line(top);
-        local resetButton = Turbine.UI.Lotro.Button();
-        resetButton:SetParent(optionsPanel);
-        resetButton:SetText("Reset to defaults");
-        resetButton:SetWidth(175);
-        resetButton:SetPosition(left, top);
-        resetButton.Click = function()
-            DeepTableCopy(defaultSettings, settings);
-            UpdateOptionsPanel();
-            DoCallbacks(optionsPanel, "SettingsChanged");
-        end;
-        top = top + resetButton:GetHeight();
-        
-        optionsPanel:SetSize(width, top);
+        optionsPanel:SetSize(width + left * 2, top + 26);
     end
-    
-    optionsPanel.showOnlyInCombat:SetChecked(settings.showOnlyInCombat);
-    optionsPanel.persistTime:SetValue(settings.persistTime * 10);
+
     optionsPanel.speed:SetValue(settings.speed);
     optionsPanel.scale:SetValue(100 * settings.scale / 2);
     optionsPanel.color:SetBackColor(settings.color);
-    optionsPanel.cycleColors:SetChecked(settings.cycleColors);
-    optionsPanel.colorCycleSpeed:SetValue(settings.colorCycleSpeed * 2);
-    if (settings.cycleColors) then
-        optionsPanel.colorLabel:SetText("Color cycle speed");
-        optionsPanel.color:SetVisible(false);
-        optionsPanel.colorCycleSpeed:SetParent(optionsPanel);        
-        optionsPanel.colorCycleSpeed:SetPosition(unpack(optionsPanel.colorCycleSpeed.position));
-        optionsPanel.colorCycleSpeed:SetVisible(true);
-    else
-        optionsPanel.colorLabel:SetText("Color");
-        optionsPanel.color:SetVisible(true);
-        optionsPanel.colorCycleSpeed:SetParent(nil);
-    end
 
     L:SetContext(prevContext);
 end
@@ -192,6 +97,7 @@ function EditColor(prevColor, changeFunc)
     if (colorPicker) then
         colorPicker:Close();
     end
+
     colorPicker = LovelyMouseFinder.UI.ColorPicker(prevColor, "H");
     colorPicker.Accepted = function()
         local newColor = colorPicker:GetColor();
@@ -200,39 +106,35 @@ function EditColor(prevColor, changeFunc)
         UpdateOptionsPanel();
         colorPicker = nil;
     end
+
     colorPicker.Canceled = function()
         colorPicker = nil;
     end
 end
 
 function SaveSettings()
---Turbine.Shell.WriteLine("Saving...");
-    -- Workaround for Turbine localization bug
     local saveData = ExportTable(settings);
-    Turbine.PluginData.Save(Turbine.DataScope.Account, "LovelyMouseFinder", saveData, function()
---Turbine.Shell.WriteLine("Save complete.");
-    end);
+    Turbine.PluginData.Save(Turbine.DataScope.Account, "LovelyMouseFinder", saveData);
 end
 
 function LoadSettings()
     Turbine.PluginData.Load(Turbine.DataScope.Account, "LovelyMouseFinder", function(loadedData)
---Turbine.Shell.WriteLine("Loading...");
         if (loadedData) then
-            -- Workaround for Turbine localization bug
             loadedData = ImportTable(loadedData);
-            DeepTableCopy(loadedData, settings);
-            settings.color = Turbine.UI.Color(settings.color.A, settings.color.R, settings.color.G, settings.color.B);
+            if (loadedData.scale ~= nil) then settings.scale = loadedData.scale; end
+            if (loadedData.speed ~= nil) then settings.speed = loadedData.speed; end
+            if (loadedData.color ~= nil) then
+                local color = loadedData.color;
+                settings.color = Turbine.UI.Color(color.A, color.R, color.G, color.B);
+            end
             UpdateOptionsPanel();
             DoCallbacks(optionsPanel, "SettingsChanged");
---Turbine.Shell.WriteLine("Load complete.");
         end
     end);
 end
 
--- Display the default settings
 UpdateOptionsPanel();
 
--- Create the "options" tab in the plugin manager.
 plugin.GetOptionsPanel = function()
     return optionsPanel;
 end
